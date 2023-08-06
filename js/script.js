@@ -7,10 +7,39 @@ const tools = document.querySelectorAll(".button_tool")
 const sizeButton = document.querySelector(".button_size")
 const buttonClear = document.querySelector(".button_clear")
 
-let burshSize=10
+let brushSize=20
+
+
+let isPainting = false
+
+
+//escolha a cor
+
+inputColor.addEventListener("change", ({target}) => {
+    ctx.fillStyle = target.value
+})
+
+//evento para desenha com mouse
+canvas.addEventListener("mousedown", ({clientX, clientY}) => {
+    draw(clientX, clientY)
+    isPainting = true
+})
+
+canvas.addEventListener("mousemove", ({clientX, clientY}) => {
+    if(isPainting) {
+        draw(clientX, clientY)
+    }
+})
+canvas.addEventListener("mouseup", ({clientX, clientY}) => {
+    isPainting = false
+})
+
 
 const draw = (x, y) => {
-    ctx.fillStyle = "#000"
-    ctx.fillRect(x,y, burshSize, burshSize)
+    ctx.beginPath()
+
+    ctx.arc(x - canvas.offsetLeft, y- canvas.offsetTop, brushSize / 2, 0, 2 * Math.PI)
+    ctx.fill()
+
 }
 
